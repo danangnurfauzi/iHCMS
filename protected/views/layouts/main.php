@@ -8,6 +8,7 @@
 	<meta name="author" content="masbenx">
 	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/global.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/font-awesome.css">
+	<link href="<?php echo Yii::app()->request->baseUrl;?>/css/bwizard.min.css" rel="stylesheet">
 </head>
 <body>
 	<!-- navbar start here !-->
@@ -56,37 +57,27 @@
 				</div>
 				<div class="row-fluid" id="sidebar">
 					<div class="first-nav">
-						<ul>
-							<li class="active"><a href="dashboard.html"><i class="icon-home"></i>Dashboard</a></li>
-							<li><a href="graph_stats.html"><i class="icon-bar-chart"></i>Graph &amp; Stats</a></li>
-							<li><a href="#"><i class="icon-external-link"></i>Forms</a></li>
-							<li><a href="#"><i class="icon-text-height"></i>Typografy</a></li>
-							<li><a href="#"><i class="icon-tasks"></i>UI Elements</a></li>
-							<li><a href="#"><i class="icon-file"></i>Pages</a></li>
-						</ul>
+						<?php 
+						$this->widget('application.components.widgets.thememilan.SuperMenu', array(
+							'active'=>(isset($this->module))?$this->module->getName():'core',
+							'columns'=> Yii::app()->allspark->getModule()
+						)); 
+						?>
+						
 					</div>
-					<!--
-					<div class="second-nav" id="sc">
-						<h2>Dashboard</h2>
-						<div class="divider"></div>
-						<ul>
-							<li><a href="#"><i class="icon-user"></i>User Profile</a></li>
-							<li><a href="#"><i class="icon-key"></i>Change Password</a></li>
-							<li><a href="#"><i class="icon-calendar"></i>Calendar</a></li>
-						</ul>
-					</div>
-					!-->
 				</div>
 			</div>
 			<div class="content" id="content-scale">
 				<div class="second-nav" id="sc">
-					<h2><?php echo ucfirst((isset($this->module))?$this->module->getName():$this->ID);?></h2>
+					<h2><?php Yii::app()->allspark->moduleName(); ?></h2>
 					<div class="divider"></div>
 					<?php 
-						$controllers = Yii::app()->metadata->getControllers($this->module->getName());
-						//$controllers = str_replace('Controller','',$controller,count)
-						//print_r($controllers);
-						echo Yii::app()->allspark->renderSubmenu($controllers, $this->module->getName(), array("Default"));
+						$this->widget('application.components.widgets.thememilan.SuperMenu', array(
+							'active'=>(isset($this->ID))?$this->ID:'Dashboard',
+							//'columns'=>(isset($this->submenu))?$this->submenu:"",
+							'columns'=> Yii::app()->allspark->getMenu()
+							)
+						); 
 					?>
 					<!--
 					<ul>
