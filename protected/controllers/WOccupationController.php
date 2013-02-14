@@ -140,6 +140,7 @@ class WOccupationController extends Controller
 	 */
 	public function actionIndex()
 	{
+		/*
 		$this->breadcrumbs = array('WOccupation'=>'', 'list');
 		$this->sub_title = 'Daftar Data Woccupation';
 		
@@ -147,6 +148,8 @@ class WOccupationController extends Controller
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+		*/
+		$this->redirect(array('admin'));
 	}
 
 	/**
@@ -191,5 +194,20 @@ class WOccupationController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	
+	public function actionLookup () {
+		//if (Yii::app()->request->isAjaxRequest && isset($_GET['term'])) {
+			$models = WOccupation::model()->suggestUsername($_GET['term']);
+			
+			$result = array();
+			foreach ($models as $m)
+	            $result[] = array(
+	                'value' => $m->name,
+	                'id' => $m->id,
+	            );
+	        
+	        echo CJSON::encode($result);
+		//}
 	}
 }
